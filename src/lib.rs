@@ -39,14 +39,26 @@ impl Fpl {
         let error_message = format!("Failed when making request to: {}", url);
         let response = match self.http_client.get(url).send().await {
             Ok(r) => r,
-            Err(_) => return Err(FplError::from(error_message.as_str())),
+            Err(err) => {
+                let error_message = format!("{} with this error: {}", error_message, err);
+                return Err(FplError::from(error_message.as_str()));
+            }
         };
         match response.status() {
             reqwest::StatusCode::OK => match response.json::<T>().await {
                 Ok(parsed) => Ok(parsed),
-                Err(_) => Err(FplError::from(error_message.as_str())),
+                Err(err) => {
+                    let error_message = format!("{} with this error: {}", error_message, err);
+                    Err(FplError::from(error_message.as_str()))
+                }
             },
-            _ => Err(FplError::from(error_message.as_str())),
+            other_status_code => {
+                let error_message = format!(
+                    "{} with this status code: {}",
+                    error_message, other_status_code
+                );
+                Err(FplError::from(error_message.as_str()))
+            }
         }
     }
 
@@ -249,8 +261,10 @@ mod tests {
     async fn test_get_user() {
         let fpl = Fpl::new();
         let user_id = 5489342;
-        let user = fpl.get_user(user_id).await.unwrap();
-        assert_eq!(user.id, user_id);
+        match fpl.get_user(user_id).await {
+            Ok(user) => assert_eq!(user.id, user_id),
+            Err(e) => panic!("Got this guy: {}", e),
+        }
     }
 
     #[tokio::test]

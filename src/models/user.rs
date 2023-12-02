@@ -19,7 +19,7 @@ pub struct User {
     pub summary_overall_points: i64,
     pub summary_overall_rank: i64,
     pub summary_event_points: i64,
-    pub summary_event_rank: i64,
+    pub summary_event_rank: Option<i64>,
     pub current_event: i64,
     pub leagues: Leagues,
     pub name: String,
