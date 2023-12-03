@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 use serde::Deserialize;
 use serde::Serialize;
 use serde_json::Value;
@@ -234,3 +236,9 @@ pub struct PlayerType {
     pub element_count: i64,
 }
 
+impl Display for Player {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let full_name = self.first_name.to_owned() + " " + self.second_name.as_str();
+        write!(f, "<id: {}, name: {}>", self.id, full_name)
+    }
+}
