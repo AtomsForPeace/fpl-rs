@@ -9,7 +9,7 @@ pub struct User {
     pub id: i64,
     pub joined_time: String,
     pub started_event: i64,
-    pub favourite_team: i64,
+    pub favourite_team: Option<i64>,
     pub player_first_name: String,
     pub player_last_name: String,
     pub player_region_id: i64,
