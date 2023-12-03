@@ -9,6 +9,7 @@ use models::{
     gameweek::Gameweek,
     h2h_league::H2HLeague,
     user::User,
+    user_picks::UserPicks,
 };
 use reqwest::{header::HeaderMap, Client, ClientBuilder};
 use serde::de::DeserializeOwned;
@@ -137,6 +138,18 @@ impl Fpl {
         let url = format!(
             "https://fantasy.premierleague.com/api/leagues-h2h-matches/league/{}/",
             league_id
+        );
+        return self.fetch(url).await;
+    }
+
+    pub async fn get_user_picks(
+        &self,
+        user_id: i64,
+        gameweek_id: i64,
+    ) -> Result<UserPicks, FplError> {
+        let url = format!(
+            "https://fantasy.premierleague.com/api/entry/{}/event/{}/picks/",
+            user_id, gameweek_id
         );
         return self.fetch(url).await;
     }
@@ -329,5 +342,14 @@ mod tests {
         let gameweek_id = 2;
         let static_gameweek = fpl.get_static_gameweek(gameweek_id).await.unwrap().unwrap();
         assert!(static_gameweek.id == gameweek_id);
+    }
+
+    #[tokio::test]
+    async fn test_get_user_picks() {
+        let fpl = Fpl::new();
+        let user_id = 5489342;
+        let gameweek_id = 14;
+        let user_picks = fpl.get_user_picks(user_id, gameweek_id).await.unwrap();
+        assert!(user_picks.picks.len() == 15);
     }
 }
