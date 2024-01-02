@@ -324,8 +324,8 @@ impl Fpl {
     ///
     /// #[tokio::main]
     /// async fn main() {
-    ///     let fpl = Fpl::new();
-    ///     let fixture_id = 12345;
+    ///     let mut fpl = Fpl::new();
+    ///     let fixture_id = 12;
     ///
     ///     match fpl.get_fixture(fixture_id).await {
     ///         Ok(fixture) => {
@@ -406,23 +406,21 @@ impl Fpl {
     ///
     /// #[tokio::main]
     /// async fn main() {
-    ///     let fpl = Fpl::new();
+    ///     let mut fpl = Fpl::new();
     ///     let gameweek_id = 12345;
     ///
     ///     match fpl.get_static_gameweek(gameweek_id).await {
-    ///         Ok(maybe_gameweek) => {
-    ///             Some(gameweek) => {
+    ///         Ok(Some(gameweek)) => {
     ///                 // Process the gameweek information
     ///                 println!("{:?}", gameweek);
-    ///             }
-    ///             None => {
+    ///         },
+    ///             Ok(None) => {
     ///                 eprintln!("Got nothing!");
     ///             }
-    ///         }
     ///         Err(err) => {
     ///             // Handle the error
     ///             eprintln!("Error: {}", err);
-    ///         }
+    ///         },
     ///     }
     /// }
     /// ```
@@ -755,7 +753,7 @@ impl Fpl {
     ///
     /// #[tokio::main]
     /// async fn main() {
-    ///     let fpl = Fpl::new();
+    ///     let mut fpl = Fpl::new();
     ///     let team_id = 6789;
     ///
     ///     match fpl.get_team(team_id).await {
@@ -1062,10 +1060,10 @@ impl Fpl {
     /// #[tokio::main]
     /// async fn main() {
     ///     let mut fpl = Fpl::new();
-    ///     let player_ids = [12345, 111];
+    ///     let player_ids = vec![12345, 111];
     ///
     ///     match fpl.get_players(player_ids).await {
-    ///         Ok(Some(players)) => {
+    ///         Ok(players) => {
     ///             // Process players information
     ///             println!("{:?}", players);
     ///         }
@@ -1129,7 +1127,7 @@ impl Fpl {
     /// # Examples
     ///
     /// ```rust
-    /// use fpl::Fpl;
+    /// use fpl_rs::Fpl;
     ///
     /// #[tokio::main]
     /// async fn main() {
@@ -1192,7 +1190,7 @@ impl Fpl {
     /// # Examples
     ///
     /// ```rust
-    /// use fpl::Fpl;
+    /// use fpl_rs::Fpl;
     ///
     /// #[tokio::main]
     /// async fn main() {
@@ -1257,7 +1255,7 @@ impl Fpl {
     /// # Examples
     ///
     /// ```rust
-    /// use fpl::Fpl;
+    /// use fpl_rs::Fpl;
     ///
     /// #[tokio::main]
     /// async fn main() {
