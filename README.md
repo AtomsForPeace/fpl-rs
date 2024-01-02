@@ -9,14 +9,6 @@ This is a Rust library that serves as an API wrapper for the Fantasy Premier Lea
 - Get details about static gameweeks.
 - Fetch static data from the FPL API.
 
-## Installation
-To use this library in your Rust project, add the following to your `Cargo.toml` file:
-
-```toml
-[dependencies]
-fpl_rs = "0.1.0"
-```
-
 ## Usage
 Here is a simple example of how to use the FPL API wrapper:
 ```rust
