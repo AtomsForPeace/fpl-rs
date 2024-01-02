@@ -8,6 +8,7 @@ use models::{
     fixture::{Fixture, Fixtures},
     gameweek::Gameweek,
     h2h_league::H2HLeague,
+    transfer::Transfers,
     user::User,
     user_picks::UserPicks,
 };
@@ -518,6 +519,14 @@ impl Fpl {
         let url = format!(
             "https://fantasy.premierleague.com/api/event/{}/live",
             gameweek_id
+        );
+        return self.fetch(url).await;
+    }
+
+    pub async fn get_transfers(&self, user_id: i64) -> Result<Transfers, FplError> {
+        let url = format!(
+            "https://fantasy.premierleague.com/api/entry/{}/transfers",
+            user_id
         );
         return self.fetch(url).await;
     }
@@ -1371,6 +1380,16 @@ mod tests {
         let fpl = Fpl::new();
         let live_gameweek = fpl.get_live_gameweek(2).await.unwrap();
         assert!(live_gameweek.elements.len() == 670);
+    }
+
+    #[tokio::test]
+    async fn test_get_transfers() {
+        let fpl = Fpl::new();
+        let user_id = 5489342;
+        match fpl.get_transfers(user_id).await {
+            Ok(transfers) => assert!(transfers.len() > 0),
+            Err(e) => panic!("Got this guy: {}", e),
+        }
     }
 
     #[tokio::test]

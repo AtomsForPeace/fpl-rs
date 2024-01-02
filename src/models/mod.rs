@@ -6,4 +6,5 @@ pub mod gameweek;
 pub mod classic_league;
 pub mod h2h_league;
 pub mod user_picks;
+pub mod transfer;
 
